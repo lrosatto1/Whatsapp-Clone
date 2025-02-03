@@ -16,8 +16,8 @@ const Register = () => {
     profilePicture: "",
   });
 
-  const [previewImage, setPreviewImage] = useState(null); // Vista previa de la imagen
-  const [fileName, setFileName] = useState(""); // Nombre del archivo cargado
+  const [previewImage, setPreviewImage] = useState(null);
+  const [fileName, setFileName] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -30,15 +30,14 @@ const Register = () => {
   const handleUploadImage = async (event) => {
     const file = event.target.files?.[0];
     if (file) {
-      setPreviewImage(URL.createObjectURL(file)); // Crear URL para la vista previa
-      setFileName(file.name); // Guardar el nombre del archivo
+      setPreviewImage(URL.createObjectURL(file)); 
+      setFileName(file.name); 
       try {
-        // Subir la imagen a Cloudinary
         const uploadResponse = await uploadFile(file);
         if (uploadResponse?.url) {
           setRegisterData((prev) => ({
             ...prev,
-            profilePicture: uploadResponse.url, // Establecer la URL de la imagen en el estado
+            profilePicture: uploadResponse.url,
           }));
         }
       } catch (error) {
@@ -48,10 +47,10 @@ const Register = () => {
   };
 
   const handleRemoveImage = () => {
-    setPreviewImage(null); // Remueve la imagen cargada
-    setFileName(""); // Limpia el nombre del archivo
-    setRegisterData((prev) => ({ ...prev, profilePicture: "" })); // Elimina la URL de la imagen
-    document.getElementById("profilePicture").value = ""; // Limpia el input file
+    setPreviewImage(null); 
+    setFileName(""); 
+    setRegisterData((prev) => ({ ...prev, profilePicture: "" }));
+    document.getElementById("profilePicture").value = ""; 
   };
 
   const handleSubmit = async (event) => {
@@ -59,7 +58,6 @@ const Register = () => {
     event.stopPropagation();
 
     try {
-      // Usar la variable de entorno VITE_BACKEND_URL correctamente
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
         method: "POST",
         headers: {
@@ -72,7 +70,7 @@ const Register = () => {
 
       if (res.success) {
         toast.success(res?.message);
-        navigate("/login"); // Redirigir al login después del registro
+        navigate("/login");
       }
     } catch (error) {
       toast.error(error?.message || "Error al registrar el usuario.");
@@ -81,8 +79,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white w-full max-w-sm rounded-lg shadow-md p-6">
+    <div className="flex items-center justify-center min-h-screen bg-white-opacity-20 p-4">
+      <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-center mb-6">
           {previewImage ? (
             <img

@@ -6,13 +6,10 @@ import { toast } from "sonner";
 import { useLocalStorage } from "@mantine/hooks";
 
 const Login = () => {
-
   const [, setUser] = useLocalStorage({
     key: "userData",
     defaultValue: {},
   });
-
-
 
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -22,7 +19,6 @@ const Login = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setLoginData((prev) => ({
       ...prev,
       [name]: value,
@@ -43,7 +39,6 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        // Maneja errores HTTP explícitamente
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al iniciar sesión.");
       }
@@ -51,8 +46,8 @@ const Login = () => {
       const res = await response.json();
 
       if (res.success) {
-       const data = {...res?.data?.user,token:res?.data?.token};
-       setUser(data);
+        const data = { ...res?.data?.user, token: res?.data?.token };
+        setUser(data);
         toast.success(res?.message || "Inicio de sesión exitoso.");
         navigate("/"); // Redirigir a la página principal
       }
@@ -63,8 +58,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white w-full max-w-sm rounded-lg shadow-md p-6">
+    <div className="flex items-center justify-center h-screen bg-[#E5E5E5] p-4">
+      {/* Fondo de pantalla completo */}
+      <div className="absolute inset-0 bg-white-opacity z-0"></div>
+
+      <div className="relative w-full max-w-sm rounded-lg shadow-lg bg-white p-6 z-10">
         <div className="flex justify-center mb-6">
           <UserCircle size={80} className="text-gray-500" />
         </div>
